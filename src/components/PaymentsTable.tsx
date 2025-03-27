@@ -4,6 +4,7 @@ import API from '../api/axious';
 import FilterInterface from '../interfaces/FilterInterface';
 import ExportExcelButton from './ExportExcelButton';
 import Pagination from './Pagination';
+import PaymentsTableFilter from './PaymentsTableFilter';
 
 const PaymentsTable = () => {
 
@@ -37,48 +38,8 @@ const PaymentsTable = () => {
 
   return (
     <div className="p-4">
-      <div className="mb-4 grid grid-cols-1 md:grid-cols-5 gap-2">
-        <input
-          name="payment_id"
-          value={filters.payment_id}
-          onChange={handleChange}
-          placeholder="Поиск по ID"
-          className="p-2 border rounded"
-        />
-        <input
-          name="email"
-          value={filters.email}
-          onChange={handleChange}
-          placeholder="Поиск по email"
-          className="p-2 border rounded"
-        />
-        <input
-          name="details"
-          value={filters.details}
-          onChange={handleChange}
-          placeholder="Поиск по реквизитам"
-          className="p-2 border rounded"
-        />
-        <select
-          title='Валюта'
-          name="currency"
-          value={filters.currency}
-          onChange={handleChange}
-          className="p-2 border rounded"
-        >
-          <option value="">Все валюты</option>
-          <option value="RUB">RUB</option>
-          <option value="USD">USD</option>
-          <option value="KZT">KZT</option>
-        </select>
-        <input
-          name="project_id"
-          value={filters.project_id}
-          onChange={handleChange}
-          placeholder="Поиск по проекту"
-          className="p-2 border rounded"
-        />
-      </div>
+
+      <PaymentsTableFilter filters={filters} onChange={handleChange} />
 
       {isLoading && <p>Загрузка...</p>}
       {isError && <p>Ошибка загрузки платежей</p>}
