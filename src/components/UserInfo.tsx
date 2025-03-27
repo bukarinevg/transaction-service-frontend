@@ -7,7 +7,8 @@ const UserInfo = () => {
     queryFn: async () => {
       const res = await API.get('/users/view');
       return res.data;
-    }
+    },
+    refetchInterval: 60000, 
   });
 
   if (isLoading) return <p>Загрузка...</p>;
