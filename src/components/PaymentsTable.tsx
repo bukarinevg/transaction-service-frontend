@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import API from '../api/axious';
 import FilterInterface from '../interfaces/FilterInterface';
 import ExportExcelButton from './ExportExcelButton';
+import Pagination from './Pagination';
 
 const PaymentsTable = () => {
 
@@ -29,11 +30,9 @@ const PaymentsTable = () => {
     }
   }); 
 
-  
-  
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
+    setPage(1);
   };
 
   return (
@@ -112,22 +111,13 @@ const PaymentsTable = () => {
               ))}
             </tbody>
             <tfoot> 
-                <tr className="w-full block">
+                <tr className="">
                     <td className="text-center p-4 flex justify-between">
-                        <button 
-                          onClick={() => setPage((prev) => Math.max(prev - 1, 1))} 
-                          disabled={page === 1}
-                          className="px-4 py-2 border rounded bg-gray-300"
-                        >
-                          Пред.
-                        </button>
-                        <button 
-                          onClick={() => setPage((prev) => prev + 1)} 
-                          disabled={data && page >= data.total_pages}
-                          className="px-4 py-2 border rounded bg-gray-300"
-                        >
-                          След.
-                        </button>
+                      <Pagination
+                          page={data.current_page}
+                          totalPages={data.last_page}
+                          setPage={setPage}
+                        />
                     </td>
                 </tr>
                 <tr>
