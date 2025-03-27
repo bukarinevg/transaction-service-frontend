@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import API from '../api/axious';
-import FilterInterface from '../interfaces/filterInterface';
+import FilterInterface from '../interfaces/FilterInterface';
 import ExportExcelButton from './ExportExcelButton';
 
 const PaymentsTable = () => {
@@ -15,18 +15,21 @@ const PaymentsTable = () => {
   } as FilterInterface;
 
   const [filters, setFilters] = useState(filterObject);
+  const [page, setPage] = useState(1);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['payments', filters],
+    queryKey: ['payments', filters, page],
     queryFn: async () => {
       const params = new URLSearchParams();
       Object.entries(filters).forEach(([key, value]) => {
         if (value) params.append(key, value);
       });
-      const res = await API.get(`/payments?${params.toString()}`);
+      const res = await API.get(`/payments?page=${page}&${params.toString()}`);
       return res.data;
     }
   }); 
+
+  
   
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -58,6 +61,7 @@ const PaymentsTable = () => {
           className="p-2 border rounded"
         />
         <select
+          title='Валюта'
           name="currency"
           value={filters.currency}
           onChange={handleChange}
@@ -108,19 +112,29 @@ const PaymentsTable = () => {
               ))}
             </tbody>
             <tfoot> 
-                <tr className="w-full flex justify-between">
-                    <td className="text-center p-4  flex justify-between">
-                        <div></div>
-                        <div></div>
-                    </td>
-                    <td className="text-center p-4">
-                        След.
+                <tr className="w-full block">
+                    <td className="text-center p-4 flex justify-between">
+                        <button 
+                          onClick={() => setPage((prev) => Math.max(prev - 1, 1))} 
+                          disabled={page === 1}
+                          className="px-4 py-2 border rounded bg-gray-300"
+                        >
+                          Пред.
+                        </button>
+                        <button 
+                          onClick={() => setPage((prev) => prev + 1)} 
+                          disabled={data && page >= data.total_pages}
+                          className="px-4 py-2 border rounded bg-gray-300"
+                        >
+                          След.
+                        </button>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={7} className="text-left p-4 flex-col">
-                        <div className="span">Всего на старнице: {data.data.length}</div>
+                        <div className="span">Всего платежей: {data.total}</div>
                         <div className="span">Текущая страница: {data.current_page}</div>
+                        <div className="span">Всего страниц: {data.last_page}</div>
                     </td>
                 </tr>
                 <tr>
