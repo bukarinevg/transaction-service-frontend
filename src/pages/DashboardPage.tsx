@@ -1,10 +1,17 @@
 import React from 'react';
+import PaymentsTable from '../components/PaymentsTable';
+import LogoutButton from '../components/LogoutButton';
 
 const DashboardPage = () => {
+
+
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-semibold text-green-600">Dashboard</h1>
-      <p className="text-gray-700 mt-2">Protected dashboard content here.</p>
+    <div className="p-6 h-screen">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Платежи</h1>
+        <LogoutButton />
+      </div>
+      <PaymentsTable />
     </div>
   );
 };
