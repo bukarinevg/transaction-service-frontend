@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 type Props = {
   children: React.ReactNode;
 };
 
 const ProtectedRoute = ({ children }: Props) => {
-  const token = localStorage.getItem('token');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      setIsAuthenticated(false);
+      return;
+    }
+
+    axios.get('/api/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => setIsAuthenticated(true))
+    .catch(() => {
+      localStorage.removeItem('token');
+      setIsAuthenticated(false);
+    });
+    
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
   }
 
-  return <>{children}</>;
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

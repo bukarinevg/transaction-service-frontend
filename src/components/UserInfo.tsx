@@ -17,13 +17,13 @@ const UserInfo = () => {
   const { name, email, balance } = data;
 
   return (
-    <div className="rounded block w-full">
+    <div className="rounded block w-full overflow-x-auto">
       <div className="flex items-center gap-4">
-        <h2 className="text-xl font-bold mb-2">{name}</h2>
-        <p className="text-gray-700 mb-2">{email}</p>
-        <div>RUB: {balance?.balance_rub ?? 0}</div>
-        <div>USD: {balance?.balance_usd ?? 0}</div>
-        <div>KZT: {balance?.balance_kzt ?? 0}</div>
+      <h2 className="text-xl font-bold mb-2">{name}</h2>
+      <p className="mb-2">{email}</p>
+      <div>RUB: {balance?.balance_rub ?? 0}</div>
+      <div>USD: {balance?.balance_usd ?? 0}</div>
+      <div>KZT: {balance?.balance_kzt ?? 0}</div>
       </div>
     </div>
   );

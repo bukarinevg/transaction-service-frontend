@@ -63,8 +63,13 @@ const LoginPage = () => {
             Войти
           </button>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          <div className="flex flex-col text-gray-500 text-sm mt-2">
+            <p> Use user: test@test.com </p>
+            <p> Password:  password </p>
+          </div>
         </div>
       </form>
+
     </div>
   );
 };
