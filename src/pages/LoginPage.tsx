@@ -27,9 +27,7 @@ const LoginPage = () => {
       });
 
       const token = response.data.token;
-      alert('setting token: ' + token);
       localStorage.setItem('token', token);
-      alert('token from storage' + localStorage.getItem('token'));
       navigate('/dashboard');
     } catch (err: any) {
       setError('Неверный логин или пароль');
