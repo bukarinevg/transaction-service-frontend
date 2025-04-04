@@ -12,8 +12,6 @@ const ProtectedRoute = ({ children }: Props) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    alert(token);
-
     if (!token) {
       setIsAuthenticated(false);
       return;
@@ -24,12 +22,8 @@ const ProtectedRoute = ({ children }: Props) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(() => {
-      alert('User authenticated successfully with token: ' + token);
-      setIsAuthenticated(true);
-    })
+    .then(() => setIsAuthenticated(true))
     .catch(() => {
-      alert('Session expired. Please log in again.');
       localStorage.removeItem('token');
       setIsAuthenticated(false);
     });
