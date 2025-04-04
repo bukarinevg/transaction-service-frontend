@@ -24,6 +24,7 @@ const ProtectedRoute = ({ children }: Props) => {
     })
     .then(() => setIsAuthenticated(true))
     .catch(() => {
+      alert('Session expired. Please log in again.');
       localStorage.removeItem('token');
       setIsAuthenticated(false);
     });
